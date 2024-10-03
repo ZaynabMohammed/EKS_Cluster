@@ -4,7 +4,7 @@ resource "tls_private_key" "bastion_key" {
 }
 
 resource "aws_key_pair" "bastion_key_pair" {
-  key_name = "EC2_Key"
+  key_name = "bastion_Key"
   public_key = tls_private_key.bastion_key.public_key_openssh
 
   provisioner "local-exec" {

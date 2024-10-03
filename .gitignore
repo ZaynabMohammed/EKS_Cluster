@@ -1,0 +1,4 @@
+EKS_terraform/bastion_key.pem
+EKS_terraform/terraform.tfstate*
+EKS_terraform/.terraform/*
+EKS_terraform/.terraform.*
