@@ -1,0 +1,35 @@
+- name: Setup Jenkins and Kubectl
+  hosts: Bastion_Host
+  become: yes
+
+  tasks:
+
+    - name: Download Jenkins keyring
+      become_user: ec2-user
+      command: sudo wget -O /etc/yum.repos.d/jenkins.repo \
+               https://pkg.jenkins.io/redhat-stable/jenkins.repo
+
+    - name: Add Jenkins repository to sources list
+      become_user: ec2-user
+      command: sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+    
+    - name: Upgrade
+      command: dnf upgrade
+
+    - name: Install openjdk-17
+      become_user: ec2-user
+      command: sudo dnf install fontconfig java-17-amazon-corretto
+    
+    - name: Install jenkins
+      become_user: ec2-user
+      command: sudo dnf install jenkins
+
+
+    - name: Start jenkins Service  
+      service:
+        name: jenkins
+        enabled: yes  
+        state: started    
+
+    - name: Download kubectl
+      command: sudo snap install kubectl --classic       

@@ -34,7 +34,7 @@ resource "aws_eks_node_group" "eks_ng_private" {
   depends_on = [
     aws_iam_role_policy_attachment.eks-AmazonEKSWorkerNodePolicy,
     aws_iam_role_policy_attachment.eks-AmazonEKS_CNI_Policy,
-#    aws_iam_role_policy_attachment.eks-AmazonEC2ContainerRegistryReadOnly,
+    aws_iam_role_policy_attachment.eks-AmazonEC2ContainerRegistryReadOnly,
   ]  
   tags = {
     Name = "Private-Node-Group"
