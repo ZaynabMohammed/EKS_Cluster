@@ -1,35 +1,43 @@
-- name: Setup Jenkins and Kubectl
+- name: Setup Jenkins and kubectl
   hosts: Bastion_Host
   become: yes
 
   tasks:
-
     - name: Download Jenkins keyring
-      become_user: ec2-user
-      command: sudo wget -O /etc/yum.repos.d/jenkins.repo \
-               https://pkg.jenkins.io/redhat-stable/jenkins.repo
+      become_user: ubuntu
+      command: sudo wget -O /usr/share/keyrings/jenkins-keyring.asc https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
 
     - name: Add Jenkins repository to sources list
-      become_user: ec2-user
-      command: sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
-    
-    - name: Upgrade
-      command: dnf upgrade
+      become_user: ubuntu
+      shell: echo "deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc]" \
+               https://pkg.jenkins.io/debian-stable binary/ |sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null
 
-    - name: Install openjdk-17
-      become_user: ec2-user
-      command: sudo dnf install fontconfig java-17-amazon-corretto
-    
-    - name: Install jenkins
-      become_user: ec2-user
-      command: sudo dnf install jenkins
+    - name: Install fontconfig and openjdk-17-jre
+      apt:
+        name:
+          - fontconfig
+          - openjdk-17-jre
+        update_cache: yes
+        state: present
 
+    - name: Update apt package cache
+      apt:
+        update_cache: yes
 
-    - name: Start jenkins Service  
+    - name: Install Jenkins package
+      apt:
+        name: jenkins
+        state: latest
+
+    - name: Start Jenkins service
       service:
         name: jenkins
-        enabled: yes  
-        state: started    
+        enabled: yes
+        state: started
 
-    - name: Download kubectl
-      command: sudo snap install kubectl --classic       
+    - name: Download the latest release of kubectl
+      become_user: ubuntu
+      shell: curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+
+    - name: Install kubectl via snap
+      command: sudo install -o jenkins -g jenkins -m 0755 kubectl /usr/local/bin/kubectl

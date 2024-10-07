@@ -10,5 +10,5 @@ variable "instance_type" {
 # AMI for EC2
 variable "ami" {
   type    = string
-  default = "ami-0fff1b9a61dec8a5f"
+  default = "ami-0866a3c8686eaeeba"
 }
