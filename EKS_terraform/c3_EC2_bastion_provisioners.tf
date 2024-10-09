@@ -27,4 +27,17 @@ resource "null_resource" "copy_ec2_keys" {
     command = "echo VPC created on `date` and VPC ID: ${module.vpc.vpc_id} >> creation-time-vpc-id.txt"
   }
 
+##File Provisioner: Copies the "~/.aws/credentials" to home dir in AWS_Linux
+  provisioner "file" {
+    source      = "~/.aws/credentials"
+    destination = "~/.aws/credentials"
+  }
+##File Provisioner: Copies the "~/.aws/config" to home dir in AWS_Linux
+  provisioner "file" {
+    source      = "~/.aws/config"
+    destination = "~/.aws/config"
+  }
+
+
+
 }
