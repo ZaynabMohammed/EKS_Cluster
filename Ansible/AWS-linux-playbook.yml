@@ -1,0 +1,46 @@
+- name: Setup Jenkins and kubectl
+  hosts: Bastion_Host
+  become: yes
+  vars:
+    java_packages: java-17-amazon-corretto-devel
+    jenkins_packages: jenkins
+    region_code: us-east-1
+    cluster_name: eksdemo
+    
+  tasks:
+    - name: Download Jenkins repository file
+      get_url:
+        url: https://pkg.jenkins.io/redhat-stable/jenkins.repo
+        dest: /etc/yum.repos.d/jenkins.repo
+
+    - name: Import Jenkins-CI key
+      command: rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+
+    - name: Install Java
+      yum:
+        name: "{{ java_packages }}"
+        state: present
+
+    - name: Install Jenkins
+      yum:
+        name: "{{ jenkins_packages }}"
+        state: present
+
+    - name: Start Jenkins service
+      service:
+        name: jenkins
+        state: started
+
+    - name: Download kubectl binary
+      command: curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.0/2024-09-12/bin/linux/amd64/kubectl
+
+    - name: Download kubectl sha256 checksum
+      command: curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.0/2024-09-12/bin/linux/amd64/kubectl.sha256 
+
+    - name: chmod kubectl
+      command: chmod +x ./kubectl
+
+
+        # - name: Update kubeconfig for EKS
+      #  shell: aws eks update-kubeconfig --region {{ region_code }} --name {{ cluster_name }}
+        #      become_user: ec2-user  
