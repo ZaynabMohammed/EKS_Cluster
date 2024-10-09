@@ -14,17 +14,17 @@ resource "aws_iam_role" "ec2_bastion_role" {
   })
 }
 
-resource "aws_iam_role_policy_attachment" "eks-AmazonEKSWorkerNodePolicy" {
+resource "aws_iam_role_policy_attachment" "ec2-EKSWorkerNodePolicy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
   role       = aws_iam_role.ec2_bastion_role.name
 }
 
-resource "aws_iam_role_policy_attachment" "eks-AmazonEKS_CNI_Policy" {
+resource "aws_iam_role_policy_attachment" "ec2-EKSClusterPolicy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
   role       = aws_iam_role.ec2_bastion_role.name
 }
 
- resource "aws_iam_role_policy_attachment" "eks-AmazonEC2ContainerRegistryReadOnly" {
+ resource "aws_iam_role_policy_attachment" "ec2-EC2ContainerRegistryReadOnly" {
    policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
    role       = aws_iam_role.ec2_bastion_role.name
  }
