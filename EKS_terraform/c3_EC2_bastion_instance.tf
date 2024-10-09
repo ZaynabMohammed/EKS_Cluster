@@ -10,5 +10,6 @@ module "ec2_public" {
   key_name               = aws_key_pair.bastion_key_pair.key_name
   subnet_id              = module.vpc.public_subnets[0]
   vpc_security_group_ids = [module.public_bastion_sg.security_group_id]
+  iam_instance_profile   = aws_iam_instance_profile.ec2_bastion_profile.name  
 
 }
