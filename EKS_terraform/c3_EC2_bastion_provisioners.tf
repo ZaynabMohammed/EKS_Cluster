@@ -11,33 +11,20 @@ resource "null_resource" "copy_ec2_keys" {
     
   }  
 
-## File Provisioner: Copies the terraform-key.pem file to /tmp/terraform-key.pem
+## File Provisioner: Copies the bastion_key.pem file to ~/bastion_key.pem
   provisioner "file" {
     source      = "bastion_key.pem"
-    destination = "/tmp/bastion_key.pem"
+    destination = "/home/ec2-user/bastion_key.pem"
   }
 ## Remote Exec Provisioner: Using remote-exec provisioner fix the private key permissions on Bastion Host
   provisioner "remote-exec" {
     inline = [
-      "sudo chmod 400 /tmp/bastion_key.pem"
+      "sudo chmod 400 /home/ec2-user/bastion_key.pem"
     ]
   }
 ## Local Exec Provisioner:  local-exec provisioner (Creation-Time Provisioner - Triggered during Create Resource)
   provisioner "local-exec" {
     command = "echo VPC created on `date` and VPC ID: ${module.vpc.vpc_id} >> creation-time-vpc-id.txt"
   }
-
-##File Provisioner: Copies the "~/.aws/credentials" to home dir in AWS_Linux
-  provisioner "file" {
-    source      = "~/.aws/credentials"
-    destination = "~/.aws/credentials"
-  }
-##File Provisioner: Copies the "~/.aws/config" to home dir in AWS_Linux
-  provisioner "file" {
-    source      = "~/.aws/config"
-    destination = "~/.aws/config"
-  }
-
-
 
 }

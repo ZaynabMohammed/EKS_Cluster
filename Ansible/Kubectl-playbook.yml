@@ -1,0 +1,55 @@
+- name: Install kubectl on Amazon Linux
+  hosts: Bastion_Host
+  become: yes 
+
+  tasks:
+    - name: Download kubectl binary
+      command: curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.0/2024-09-12/bin/linux/amd64/kubectl
+
+    - name: make kubectl exectuable
+      command: chmod +x ./kubectl    
+
+    - name: Create bin directory for jenkins user
+      file:
+        path: /var/lib/jenkins/bin
+        state: directory
+        owner: jenkins
+        group: jenkins
+
+    - name: Copy kubectl to jenkins bin directory & export path
+      shell: cp ./kubectl /var/lib/jenkins/bin/kubectl &&  export PATH=/var/lib/jenkins/bin:$PATH
+      become: yes
+        
+    - name: Change owner and group of kubectl
+      file:
+        path: /var/lib/jenkins/bin/kubectl
+        owner: jenkins
+        group: jenkins
+
+    - name: Ensure jenkins user owns the kubectl config directory
+      file:
+        path: /var/lib/jenkins/.kube
+        state: directory
+        owner: jenkins
+        group: jenkins
+        mode: '0755'
+
+    - name: Create .aws directory for jenkins user
+      file:
+        path: /var/lib/jenkins/.aws
+        state: directory
+        owner: jenkins
+        group: jenkins
+        mode: '0700'
+
+    - name: Copy AWS credentials to jenkins user home directory
+      copy:
+        src: /home/zeinab/.aws/credentials
+        dest: /var/lib/jenkins/.aws/credentials
+        owner: jenkins
+        group: jenkins        
+
+    - name: Configure kubectl for Jenkins using AWS CLI
+      become: yes
+      become_user: jenkins  # Switch to jenkins user
+      command: "aws eks --region us-east-1 update-kubeconfig --name eksdemo"

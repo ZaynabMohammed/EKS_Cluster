@@ -1,0 +1,48 @@
+- name: Install Docker on Amazon Linux 2
+  hosts: Bastion_Host
+  become: yes  # Run commands as root
+  tasks:
+    - name: Update the OS package index
+      yum:
+        name: "*"
+        state: latest
+
+    - name: Install required packages
+      yum:
+        name: 
+          - yum-utils
+          - device-mapper-persistent-data
+          - lvm2
+        state: present
+
+    - name: Add Docker repository
+      yum_repository:
+        name: docker
+        description: Docker Repository
+        baseurl: https://download.docker.com/linux/centos/7/x86_64/stable
+        gpgcheck: yes
+        gpgkey: https://download.docker.com/linux/centos/gpg
+
+    - name: Install Docker
+      yum:
+        name: docker
+        state: present
+
+    - name: Start and enable Docker service
+      systemd:
+        name: docker
+        enabled: yes
+        state: started
+
+    - name: Add ec2-user to the docker group
+      user:
+        name: ec2-user
+        groups: docker
+        append: yes
+
+          
+    - name: Add jenkins to the docker group
+      user:
+        name: jenkins
+        groups: docker
+        append: yes
