@@ -1,42 +1,26 @@
-- name: Install kubectl on Amazon Linux
+- name: Install kubectl&GIT
   hosts: Bastion_Host
   become: yes 
-
+  vars:
+    home_dir: /home/zeinab
+    jenkins_home: /var/lib/jenkins  
   tasks:
     - name: Download kubectl binary
       command: curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.0/2024-09-12/bin/linux/amd64/kubectl
 
-    - name: make kubectl exectuable
-      command: chmod +x ./kubectl    
+    - name: Copy kubectl to /usr/local/bin
+      command: sudo cp ./kubectl /usr/local/bin/
 
-    - name: Create bin directory for jenkins user
-      file:
-        path: /var/lib/jenkins/bin
-        state: directory
-        owner: jenkins
-        group: jenkins
-
-    - name: Copy kubectl to jenkins bin directory & export path
-      shell: cp ./kubectl /var/lib/jenkins/bin/kubectl &&  export PATH=/var/lib/jenkins/bin:$PATH
+    - name: make kubectl executable
       become: yes
-        
-    - name: Change owner and group of kubectl
       file:
-        path: /var/lib/jenkins/bin/kubectl
-        owner: jenkins
-        group: jenkins
-
-    - name: Ensure jenkins user owns the kubectl config directory
-      file:
-        path: /var/lib/jenkins/.kube
-        state: directory
-        owner: jenkins
-        group: jenkins
+        path: /usr/local/bin/kubectl
         mode: '0755'
+
 
     - name: Create .aws directory for jenkins user
       file:
-        path: /var/lib/jenkins/.aws
+        path: "{{ jenkins_home }}/.aws"
         state: directory
         owner: jenkins
         group: jenkins
@@ -44,12 +28,16 @@
 
     - name: Copy AWS credentials to jenkins user home directory
       copy:
-        src: /home/zeinab/.aws/credentials
-        dest: /var/lib/jenkins/.aws/credentials
+        src: "{{ home_dir }}/.aws/credentials"
+        dest: "{{ jenkins_home }}/.aws/credentials"
         owner: jenkins
         group: jenkins        
 
     - name: Configure kubectl for Jenkins using AWS CLI
-      become: yes
       become_user: jenkins  # Switch to jenkins user
       command: "aws eks --region us-east-1 update-kubeconfig --name eksdemo"
+
+    - name: Install GIT 
+      dnf:
+        name: git
+        state: present        
