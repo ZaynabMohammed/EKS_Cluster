@@ -1,0 +1,41 @@
+pipeline {
+    agent any
+    stages {
+	    stage('Git') {
+            steps {
+                git 'https://github.com/AlaaOrabi/Book-Node-Js.git'
+            }
+		}
+        stage('CI') {
+            steps {
+            withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) 
+                     {
+                        sh '''
+                            docker build -t zeinab817/nodejs-app:v1 .
+                            docker login -u ${USERNAME} -p ${PASSWORD}
+							docker image push zeinab817/nodejs-app:v1
+                    
+                        '''
+                    }
+                }
+            }
+			
+			stage('CD') {
+            steps {
+            withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) 
+                     {
+                        sh '''
+                            docker login -u ${USERNAME} -p ${PASSWORD}
+			    kubectl apply -f deployment.yaml
+			    kubectl apply -f service.yaml
+                    
+                        '''
+                    }
+                }
+            }
+			
+			
+			
+        }
+    }
+
