@@ -1,1 +1,1 @@
-Bastion_Host ansible_host=18.206.70.78 ansible_ssh_private_key_file=../EKS_terraform/bastion_key.pem
+Bastion_Host ansible_host=3.215.68.198 ansible_ssh_private_key_file=../EKS_terraform/bastion_key.pem
