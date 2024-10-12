@@ -45,9 +45,6 @@ ansible-playbook Kubectl-playbook.yml
 1. stage('Git') to use this Repository [Book-Node-Js](https://github.com/AlaaOrabi/Book-Node-Js.git)
 2. stage('CI') to build dockerfile and push image to DockerHub.
 3. stage('CD') to deploy web-app in EKS-Cluster  
-   
-
-<img src="https://github.com/ZaynabMohammed/EKS_Cluster/blob/master/images/book-app.PNG" width="900" height="620" >  
   
 ```yaml
 pipeline {
@@ -83,3 +80,34 @@ pipeline {
     }
 }
 ```
+
+## Step 05: Hit Book CRUD Application 
+1. SSH to EC2-Bastion-Host.
+```bash
+ssh -i bastion_key.pem ec2-user@3.215.68.198
+```
+2. Switch to jenkins user
+```bash
+su jenkins
+```
+3. RUN Kubectl get all to get `EXTERNAL-IP` 
+```bash
+bash-5.2$ kubectl get all
+NAME                                    READY   STATUS    RESTARTS   AGE
+pod/book-node-js-6db5756568-2b8r6       1/1     Running   0          2m56s
+pod/book-node-js-6db5756568-7g4j7       1/1     Running   0          2m56s
+pod/book-node-js-6db5756568-mh27s       1/1     Running   0          2m56s
+
+NAME                           TYPE           CLUSTER-IP      EXTERNAL-IP                                                               PORT(S)          AGE
+service/book-node-js-service   LoadBalancer   172.20.169.38   a9531a81190ba44b8a86f63feb7d2176-1948262158.us-east-1.elb.amazonaws.com   3000:30001/TCP   2m55s
+service/kubernetes             ClusterIP      172.20.0.1      <none>                                                                    443/TCP          6h35m
+
+NAME                               READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/book-node-js       3/3     3            3           2m56s
+
+NAME                                          DESIRED   CURRENT   READY   AGE
+replicaset.apps/book-node-js-6db5756568       3         3         3       2m56s
+```
+4. In the browser's address bar, enter `EXTERNAL-IP:3000` and press Enter.  
+
+<img src="https://github.com/ZaynabMohammed/EKS_Cluster/blob/master/images/book-app.PNG" width="900" height="620" >   
