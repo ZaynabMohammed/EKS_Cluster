@@ -49,8 +49,9 @@
     3. Custom rule: 8080 ----> for jenkins
    ```
 5. `c3_EC2_bastion_keypair.tf` using [tls_private_key](https://registry.terraform.io/providers/hashicorp/tls/latest/docs/resources/private_key), [aws_key_pair](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/key_pair)
+    1. [Local Exec Provisioner](https://developer.hashicorp.com/terraform/language/resources/provisioners/local-exec) to save the key-pair `bastion_key.pem` file.
 6. `c3_EC2_bastion_provisioners.tf` using [null_resource](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) to to connect to EC2 Bastionhost.    
-    1. [File Provisioner](https://developer.hashicorp.com/terraform/language/resources/provisioners/file) to Copy the bastion_key.pem file to ~/bastion_key.pem
+    1. [File Provisioner](https://developer.hashicorp.com/terraform/language/resources/provisioners/file) to Copy the `bastion_key.pem` file to `~/bastion_key.pem`
     2. [Remote Exec Provisioner](https://developer.hashicorp.com/terraform/language/resources/provisioners/remote-exec) to fix the private key permissions on Bastion Host
     3. [Local Exec Provisioner](https://developer.hashicorp.com/terraform/language/resources/provisioners/local-exec)  for (Creation-Time Provisioner - Triggered during Create Resource)
 7. `c3_EC2_bastion_outputs.tf` using [Output Values](https://developer.hashicorp.com/terraform/language/values/outputs)
