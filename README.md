@@ -4,7 +4,7 @@
 1. Navigate to `EKS_terraform` directory
 2. Run below commands to build below architecture.
    
-<img src="https://github.com/ZaynabMohammed/EKS_Cluster/blob/master/images/EKS-Arch%20.PNG" width="900" height="620" >
+<img src="https://github.com/ZaynabMohammed/EKS_Cluster/blob/master/images/EKS-Arch%20.PNG" width="1100" height="620" >
 
 ```bash
 # Terraform Initialize
