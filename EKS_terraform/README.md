@@ -1,4 +1,7 @@
 # EKS_Cluster with Terraform
+
+<img src="https://github.com/ZaynabMohammed/EKS_Cluster/blob/master/images/EKS-Resources.PNG" width="1100" height="700" >  
+
 ## Step 01: Generic-Vars & Provider
 1. `c1_generic_vars` to identify AWS-Region `us-east-1`
 2. `c1_provider.tf` to identify provider `AWS` and its version `>= 5.31`
