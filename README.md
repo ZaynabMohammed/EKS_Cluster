@@ -37,44 +37,40 @@ ansible-playbook Kubectl-playbook.yml
 ## Step 04: Create a pipeline Job to apply this jenkins_file to deploy web-app in EKS_Cluster.
 ### pipline Stages:
 1. stage('Git') to use this Repository [Book-Node-Js](https://github.com/AlaaOrabi/Book-Node-Js.git)
-2. stage('CI') to build dockerfile and push 
-3. stage('CD')
+2. stage('CI') to build dockerfile and push image to DockerHub.
+3. stage('CD') to deploy web-app in EKS-Cluster
+<img src="https://github.com/ZaynabMohammed/CI-CD-Project/blob/master/Jenkins/jenkins.PNG" width="900" height="620" >
 ```yaml
 pipeline {
     agent any
     stages {
-	    stage('Git') {
+        stage('Git') {
             steps {
-                git 'https://github.com/AlaaOrabi/Book-Node-Js.git'
+                git 'https://github.com/AlaaOrabi/Book-Node-Js.git';
             }
-		}
+        }
         stage('CI') {
             steps {
-            withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) 
-                     {
-                        sh '''
-                            docker build -t zeinab817/nodejs-app:v1 .
-                            docker login -u ${USERNAME} -p ${PASSWORD}
-							docker image push zeinab817/nodejs-app:v1
-                    
-                        '''
-                    }
+                withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                    sh '''
+                        docker build -t zeinab817/nodejs-app:v1 .
+                        docker login -u ${USERNAME} -p ${PASSWORD}
+                        docker image push zeinab817/nodejs-app:v1
+                    '''
                 }
             }
-			
-			stage('CD') {
+        }
+        stage('CD') {
             steps {
-            withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) 
-                     {
-                        sh '''
-                            docker login -u ${USERNAME} -p ${PASSWORD}
-			    kubectl apply -f deployment.yaml
-			    kubectl apply -f service.yaml
-                    
-                        '''
-                    }
+                withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                    sh '''
+                        docker login -u ${USERNAME} -p ${PASSWORD}
+                        kubectl apply -f deployment.yaml
+                        kubectl apply -f service.yaml
+                    '''
                 }
             }
         }
     }
+}
 ```
