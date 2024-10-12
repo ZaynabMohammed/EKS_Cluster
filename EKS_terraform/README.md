@@ -1,6 +1,6 @@
 # EKS_Cluster with Terraform
 
-<img src="https://github.com/ZaynabMohammed/EKS_Cluster/blob/master/images/EKS-Resources.PNG" width="1100" height="700" >  
+<img src="https://github.com/ZaynabMohammed/EKS_Cluster/blob/master/images/EKS-Resources.PNG" width="1100" height="600" >  
 
 ## Step 01: Generic-Vars & Provider
 1. `c1_generic_vars` to identify AWS-Region `us-east-1`
