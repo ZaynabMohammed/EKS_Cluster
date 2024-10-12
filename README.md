@@ -48,7 +48,7 @@ public_subnets = [
 vpc_cidr_block = "10.0.0.0/16"
 vpc_id = "vpc-08d1e4f668318063d"
 ```
-## Step 01: Configure Bastion-Host with Ansible
+## Step 02: Configure Bastion-Host with Ansible
 1. Navigate to `Ansible` directory
 2. SSH to EC2-Bastion-Host.
 3. Run all ansible playbooks to configure `jenkins` `docker` `kubectl` `GIT` in EC2-Bastion-Host.
