@@ -1,6 +1,6 @@
 # Configure BastionHost with Ansible  
 
-we will execute several `Ansible-playbooks` to configure `jenkins` `Docker` `Kubectl` and `GIT` within the Bastion Host environment.  
+We will execute several `Ansible-playbooks` to configure `jenkins` `Docker` `Kubectl` and `GIT` within the Bastion Host environment.  
 
 <div style="display: flex; justify-content: space-between; align-items: center;">
   <img src="https://www.vectorlogo.zone/logos/ansible/ansible-ar21.svg"; alt="Ansible" width="110" height="130">
