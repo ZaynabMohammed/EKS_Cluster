@@ -3,7 +3,9 @@
 ## Step 01: Power on EKS-Cluster with Terraform
 1. Navigate to `EKS_terraform` directory
 2. Run below commands to build below architecture.
-<img src="https://github.com/ZaynabMohammed/EKS_Cluster/blob/master/images/EKS-Arch%20.PNG" width="900" height="620" > 
+   
+<img src="https://github.com/ZaynabMohammed/EKS_Cluster/blob/master/images/EKS-Arch%20.PNG" width="900" height="620" >
+
 ```bash
 # Terraform Initialize
 terraform init
@@ -25,11 +27,15 @@ ansible-playbook Kubectl-playbook.yml
 ```
 ## Step 03: Access Jenkins through browser:  
 1. In the browser's address bar, enter `http://Bastion_Host_Public_IPv4_address:8080` and press Enter.
-<img src="https://github.com/ZaynabMohammed/EKS_Cluster/blob/master/images/jenkins.PNG" width="900" height="620" >
+   
+<img src="https://github.com/ZaynabMohammed/EKS_Cluster/blob/master/images/jenkins.PNG" width="900" height="620" >  
+
 2. Add `DockerHub` credantials.
    - Navigate to `Manage Jenkins`, Click on the `Credentials` under Secuirty section.
-   - Click on the `Add Credentials` with Kind `Username with password` For basic authentication.
-<img src="https://github.com/ZaynabMohammed/EKS_Cluster/blob/master/images/add-cred.PNG" width="900" height="620" >
+   - Click on the `Add Credentials` with Kind `Username with password` For basic authentication.  
+
+<img src="https://github.com/ZaynabMohammed/EKS_Cluster/blob/master/images/add-cred.PNG" width="900" height="620" >  
+
 3. Install docker plugin and Kubernetes plugin
    - Navigate to `Manage Jenkins`, Click on the `Plugins` in System Configuration section.
    - Click on the `available plugins` and install required plugins.
@@ -38,8 +44,11 @@ ansible-playbook Kubectl-playbook.yml
 ### pipline Stages:
 1. stage('Git') to use this Repository [Book-Node-Js](https://github.com/AlaaOrabi/Book-Node-Js.git)
 2. stage('CI') to build dockerfile and push image to DockerHub.
-3. stage('CD') to deploy web-app in EKS-Cluster
-<img src="https://github.com/ZaynabMohammed/EKS_Cluster/blob/master/images/book-app.PNG" width="900" height="620" >
+3. stage('CD') to deploy web-app in EKS-Cluster  
+   
+
+<img src="https://github.com/ZaynabMohammed/EKS_Cluster/blob/master/images/book-app.PNG" width="900" height="620" >  
+  
 ```yaml
 pipeline {
     agent any
