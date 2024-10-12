@@ -1,5 +1,18 @@
 # A CICD Project to deploy web-app in EKS-Cluster
 
+- Establish infrastructure and configure a secure Kubernetes cluster on AWS using Terraform.  
+- Deploy Jenkins and integrate it with Ansible, to manage CICD stages.
+- Create a Jenkins pipeline to deploy application, including pulling the Docker file and automating the deployment pipeline. 
+
+<div style="display: flex; justify-content: space-between; align-items: center;">
+  <img src="https://www.vectorlogo.zone/logos/ansible/ansible-ar21.svg"; alt="Ansible" width="110" height="130">
+  <img src="https://www.vectorlogo.zone/logos/terraformio/terraformio-ar21.svg"; alt="Terraform" width="100" height="100">
+  <img src="https://www.vectorlogo.zone/logos/docker/docker-official.svg"; alt="Docker" width="100" height="100">
+  <img src="https://www.vectorlogo.zone/logos/kubernetes/kubernetes-ar21.svg"; alt="Kubernetes" width="150" height="130">
+  <img src="https://www.vectorlogo.zone/logos/amazon_aws/amazon_aws-ar21.svg"; alt="AWS" width="100" height="100">
+  <img src="https://www.vectorlogo.zone/logos/jenkins/jenkins-ar21.svg"; alt="Jenkins" width="100" height="100">
+</div>
+
 ## Step 01: Power on EKS-Cluster with Terraform
 1. Navigate to `EKS_terraform` directory
 2. Run below commands to build below architecture.
