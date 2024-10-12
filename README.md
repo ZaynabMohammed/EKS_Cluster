@@ -84,7 +84,7 @@ pipeline {
 ## Step 05: Hit Book CRUD Application 
 1. SSH to EC2-Bastion-Host.
 ```bash
-ssh -i bastion_key.pem ec2-user@3.215.68.198
+ssh -i bastion_key.pem ec2-user@'Bastion_Host_Public_IPv4_address'
 ```
 2. Switch to jenkins user
 ```bash
