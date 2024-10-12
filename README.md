@@ -16,6 +16,38 @@ terraform plan
 # Terraform Apply
 terraform apply
 ```
+3- Apply complete!
+```bash
+Apply complete! Resources: 38 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+azs = tolist([
+  "us-east-1a",
+  "us-east-1b",
+])
+cluster_arn = "arn:aws:eks:us-east-1:011528298410:cluster/eksdemo"
+cluster_endpoint = "https://CC6EBDB0AE8D00EC0BF0BD2D2AA45108.gr7.us-east-1.eks.amazonaws.com"
+cluster_id = "eksdemo"
+cluster_version = "1.30"
+ec2_bastion_eip = "3.215.68.198"
+ec2_bastion_public_instance_ids = "i-0e282e63f34f3eab8"
+nat_public_ips = tolist([
+  "44.193.232.179",
+])
+node_group_private_arn = "arn:aws:eks:us-east-1:011528298410:nodegroup/eksdemo/private_node_Grp/e0c93e12-9d8e-0c2d-251d-b34e8f3635a1"
+node_group_private_id = "eksdemo:private_node_Grp"
+private_subnets = [
+  "subnet-05a23d487273bdcd9",
+  "subnet-03b0d1e9cf35967cd",
+]
+public_subnets = [
+  "subnet-0c41419397532170d",
+  "subnet-0ea9128151ab53829",
+]
+vpc_cidr_block = "10.0.0.0/16"
+vpc_id = "vpc-08d1e4f668318063d"
+```
 ## Step 01: Configure Bastion-Host with Ansible
 1. Navigate to `Ansible` directory
 2. SSH to EC2-Bastion-Host.
